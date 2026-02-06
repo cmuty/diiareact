@@ -8,7 +8,7 @@ export default function AuthView() {
     const [showPassword, setShowPassword] = useState(false);
     const [error, setError] = useState('');
     const [isLoading, setIsLoading] = useState(false);
-    const { login } = useAuth();
+    const { login, serverStatus } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -88,8 +88,12 @@ export default function AuthView() {
                         )}
 
                         <div className="server-status">
-                            <span className="status-dot online"></span>
-                            <span className="status-text">Сервер підключено</span>
+                            <span className={`status-dot ${serverStatus}`}></span>
+                            <span className="status-text">
+                                {serverStatus === 'checking' && "З'єднання.."}
+                                {serverStatus === 'online' && "Сервер підключено"}
+                                {serverStatus === 'offline' && "Сервер недоступний"}
+                            </span>
                         </div>
 
                         <button

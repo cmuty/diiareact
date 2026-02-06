@@ -17,6 +17,9 @@ export const AuthProvider = ({ children }) => {
     const [hasSignature, setHasSignature] = useState(false);
     const [hasPinCode, setHasPinCode] = useState(false);
     const [isPinVerified, setIsPinVerified] = useState(false);
+    const [serverStatus, setServerStatus] = useState('checking'); // checking, online, offline
+
+    const API_URL = 'https://diia-backend.onrender.com';
 
     // Check authentication on mount
     useEffect(() => {
@@ -49,11 +52,38 @@ export const AuthProvider = ({ children }) => {
         checkAuth();
     }, []);
 
+    // Check server status
+    useEffect(() => {
+        const checkStatus = async () => {
+            try {
+                // Using a simple fetch to the wakeup endpoint or just the root
+                const response = await fetch(`${API_URL}/health`, { method: 'GET' }).catch(() => null);
+
+                // If /health doesn't exist, we might get 404 but the server is reachable.
+                // However, let's try to just hit the API_URL.
+                // Since I don't know the exact "health" endpoint, I'll assume if fetch creates a network error it's offline.
+                // If it returns 404, it means it's ONLINE but route missing.
+
+                // Let's try a safer approach: fetch root.
+                const res = await fetch(API_URL).catch(() => null);
+
+                if (res) {
+                    setServerStatus('online');
+                } else {
+                    setServerStatus('offline');
+                }
+            } catch (e) {
+                setServerStatus('offline');
+            }
+        };
+
+        checkStatus();
+        const interval = setInterval(checkStatus, 30000); // Check every 30s
+        return () => clearInterval(interval);
+    }, []);
+
     const login = async (username, password) => {
         try {
-            // Connected to backend server
-            const API_URL = 'https://diia-backend.onrender.com';
-
             const response = await fetch(`${API_URL}/api/auth/login`, {
                 method: 'POST',
                 headers: {
@@ -208,7 +238,8 @@ export const AuthProvider = ({ children }) => {
         getSignature,
         setPinCode,
         verifyPinCode,
+        serverStatus
     };
 
-    return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
+    return <AuthContext.Provider value={value}>{!isLoading && children}</AuthContext.Provider>;
 };
