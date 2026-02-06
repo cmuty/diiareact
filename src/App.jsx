@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import GradientBackground from './components/GradientBackground';
 import TabBar from './components/TabBar';
@@ -9,13 +9,41 @@ import MenuView from './views/MenuView';
 import AuthView from './views/AuthView';
 import SignatureView from './views/SignatureView';
 import PinCodeView from './views/PinCodeView';
+import InstallGuide from './components/InstallGuide';
 
 function MainApp() {
   const [currentTab, setCurrentTab] = useState('documents');
   const { isAuthenticated, isLoading, hasSignature, hasPinCode, isPinVerified } = useAuth();
+  const [isStandalone, setIsStandalone] = useState(false);
+
+  useEffect(() => {
+    // Check if app is running in standalone mode (home screen)
+    const checkStandalone = () => {
+      const isStandaloneMode =
+        window.matchMedia('(display-mode: standalone)').matches ||
+        window.navigator.standalone === true ||
+        document.referrer.includes('android-app://');
+
+      setIsStandalone(isStandaloneMode);
+      console.log('[App] Is Standalone:', isStandaloneMode);
+    };
+
+    checkStandalone();
+
+    // Listen for changes
+    window.matchMedia('(display-mode: standalone)').addEventListener('change', checkStandalone);
+  }, []);
 
   // Debug logging
-  console.log('[App] State:', { isAuthenticated, isLoading, hasSignature, hasPinCode, isPinVerified });
+  console.log('[App] State:', { isAuthenticated, isLoading, hasSignature, hasPinCode, isPinVerified, isStandalone });
+
+  if (!isStandalone) {
+    return <InstallGuide />;
+  }
+
+  if (!isStandalone) {
+    return <InstallGuide />;
+  }
 
   if (isLoading) {
     return (
