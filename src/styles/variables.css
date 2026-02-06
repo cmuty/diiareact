@@ -1,0 +1,79 @@
+:root {
+    /* Gradient colors (фоновый градиент экрана) */
+    --gradient-blue: #6ea8ff;
+    --gradient-yellow: #ffd966;
+    --gradient-pink: #ff99cc;
+    --gradient-purple: #c299ff;
+
+    /* Dynamic gradient colors (обновляются через JS) */
+    --gradient-color-1: var(--gradient-blue);
+    --gradient-color-2: var(--gradient-yellow);
+    --gradient-color-3: var(--gradient-pink);
+
+    /* Marquee gradient (зеленая бегущая строка) */
+    --marquee-green-1: #a4eb97;
+    --marquee-green-2: #9addb0;
+    --marquee-green-3: #8ed1cc;
+
+    /* Card dimensions (адаптивные, не фиксированные) */
+    --card-max-width: 360px;
+    --card-min-height: 520px;
+    --card-radius: 32px;
+
+    /* Photo dimensions */
+    --photo-width: 130px;
+    --photo-height: 170px;
+    --photo-radius: 14px;
+    --photo-bg-padding: 8px;
+
+    /* Typography (с font-weight и line-height) */
+    --font-title-size: 28px;
+    --font-title-weight: 400;
+    /* Regular вместо Bold */
+    --font-title-line-height: 1.1;
+
+    --font-name-size: 26px;
+    --font-name-weight: 400;
+    /* Regular вместо SemiBold */
+    --font-name-line-height: 1.15;
+
+    --font-label-size: 14px;
+    --font-label-weight: 400;
+    --font-label-line-height: 1.3;
+
+    --font-data-size: 14px;
+    --font-data-weight: 500;
+    --font-data-line-height: 1.3;
+
+    --font-marquee-size: 14px;
+    --font-marquee-weight: 400;
+
+    /* Marquee height */
+    --marquee-height: 35px;
+
+    /* Colors */
+    --text-black: #000000;
+    --photo-bg-white: #ffffff;
+    --card-border: rgba(255, 255, 255, 0.3);
+
+    /* Tab bar */
+    --tab-bar-height: 80px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+}
+
+#root {
+    width: 100%;
+    min-height: 100vh;
+}
