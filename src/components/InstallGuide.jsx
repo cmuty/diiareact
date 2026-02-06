@@ -32,15 +32,6 @@ export default function InstallGuide() {
                     </p>
                 </div>
             </div>
-
-            {/* Bottom Bar (Simulated Safari UI) */}
-            <div className="safari-bar">
-                <div className="safari-url-bar">
-                    <span className="safari-icon">大小</span>
-                    <span className="safari-url">my.funpapers.net</span>
-                    <span className="safari-icon">↻</span>
-                </div>
-            </div>
         </div>
     );
 }
